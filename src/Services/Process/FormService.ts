@@ -1,19 +1,20 @@
 import { HttpService } from '@nestjs/axios';
 import { Body, HttpException, Injectable } from '@nestjs/common';
 import { AxiosError } from 'axios';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, retry } from 'rxjs';
 
 @Injectable()
-export class ProcessService {
+export class FormService {
     constructor(private readonly httpService: HttpService) { }
 
-    // async GetFlowChart(rqId: string, chartId: string): Promise<any> {
+    // async SubmitFormData(formData: string, chartId: string): Promise<any> {
     //     const url = `http://localhost:5678/webhook/${encodeURIComponent(rqId)}`;
     //     try {
     //         const response = await this.httpService.post(url, chartId);
     //         console.log(response);
     //         return response;
     //     } catch (error: unknown) {
+    //         // 👇 Check if the error is an AxiosError
     //         if (error && typeof error === 'object' && 'isAxiosError' in error) {
     //             const axiosError = error as AxiosError;
 
@@ -34,19 +35,20 @@ export class ProcessService {
     //     }
     // }
 
-    async getFlowChart(rqId: string, chartId: string): Promise<any> {
-        const url = `http://localhost:5678/webhook/${encodeURIComponent(rqId)}`;
+    async SubmitFormData(data: any, id: string): Promise<any> {
+        console.log("---------------------------SubmitFormData----------------------------------")
+        const url = `http://localhost:5678/webhook/formsubmit`;
         const payload = {
-            graphId: chartId,
+            parent: id,
+            data: data,
         }
+        console.log(payload);
         try {
             const response = await firstValueFrom(
                 this.httpService.post(url, payload)
             );
-
-            console.log("GOTTEN:");
-            console.log(response.data);
             return response.data;
+            
         } catch (error: any) {
             console.error('FetchData error:', error?.response?.data || error.message);
             throw new HttpException(
@@ -56,19 +58,41 @@ export class ProcessService {
         }
     }
 
-    async getNodeSchema(rqId: string, loader: string): Promise<any> {
-        const url = `http://localhost:5678/webhook/${encodeURIComponent(loader)}`;
-        // const payload = {
-        //     schemaId: Id,
-        // }
+    async GetSubmission(data: any): Promise<any> {
+        console.log("---------------------------GetSubmission----------------------------------")
+        const url = `http://localhost:5678/webhook-test/GetAllSubmit`;
+        const payload = {
+            data: data,
+        }
+        console.log(payload);
         try {
             const response = await firstValueFrom(
-                this.httpService.get(url)
+                this.httpService.post(url, payload)
             );
-
-            console.log("GOTTEN:");
-            console.log(response.data);
             return response.data;
+            
+        } catch (error: any) {
+            console.error('FetchData error:', error?.response?.data || error.message);
+            throw new HttpException(
+                error?.response?.data || 'External API error',
+                error?.response?.status || 500,
+            );
+        }
+    }
+
+    async GetAllSubmission(parentId: string): Promise<any> {
+        console.log("---------------------------GetSubmission----------------------------------")
+        const url = `http://localhost:5678/webhook-test/GetAllSubmit`;
+        const payload = {
+            data: parentId,
+        }
+        console.log(payload);
+        try {
+            const response = await firstValueFrom(
+                this.httpService.post(url, payload)
+            );
+            return response.data;
+            
         } catch (error: any) {
             console.error('FetchData error:', error?.response?.data || error.message);
             throw new HttpException(

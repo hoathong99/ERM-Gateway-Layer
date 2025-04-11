@@ -5,10 +5,11 @@ import { BasicControllerController } from './Controller/basic-controller/basic-c
 import { ProcessControllerController } from './Controller/process-controller/process-controller.controller';
 import { HttpModule } from '@nestjs/axios';
 import { ProcessService } from './Services/Process/ProcessService';
+import { FormService } from './Services/Process/FormService';
 
 @Module({
   imports: [HttpModule],
   controllers: [AppController, BasicControllerController, ProcessControllerController],
-  providers: [AppService, ProcessService],
+  providers: [AppService, ProcessService, FormService],
 })
 export class AppModule {}
