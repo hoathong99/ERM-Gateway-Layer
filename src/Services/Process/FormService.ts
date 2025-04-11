@@ -58,11 +58,10 @@ export class FormService {
         }
     }
 
-    async GetSubmission(data: any): Promise<any> {
-        console.log("---------------------------GetSubmission----------------------------------")
-        const url = `http://localhost:5678/webhook-test/GetAllSubmit`;
+    async GetLatestSubmission(parentId: string): Promise<any> {
+        const url = `http://localhost:5678/webhook/GetLatestSubmit`;
         const payload = {
-            data: data,
+            data: parentId,
         }
         console.log(payload);
         try {
@@ -82,7 +81,7 @@ export class FormService {
 
     async GetAllSubmission(parentId: string): Promise<any> {
         console.log("---------------------------GetSubmission----------------------------------")
-        const url = `http://localhost:5678/webhook-test/GetAllSubmit`;
+        const url = `http://localhost:5678/webhook/GetAllSubmit`;
         const payload = {
             data: parentId,
         }

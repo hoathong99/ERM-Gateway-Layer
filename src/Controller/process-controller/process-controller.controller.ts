@@ -17,8 +17,8 @@ export class ProcessControllerController {
         switch (rq.body.type) {
             case 'GET_GRAPH': {
                 console.log("---------------------------------------------------------GET_GRAPH---------------------------------------------------------");
-                let rqId = rq.body.data.rqId;         
-                let chartId = rq.body.data.grId;                 
+                let rqId = rq.body.data.rqId;
+                let chartId = rq.body.data.grId;
                 try {
                     const respond = await this.processService.getFlowChart(rqId, chartId);
                     return respond;
@@ -28,8 +28,8 @@ export class ProcessControllerController {
             }
             case 'GET_NODE': {
                 console.log("---------------------------------------------------------GET_GRAPH---------------------------------------------------------");
-                let rqId = rq.body.data.rqId;         
-                let nodeLoader = rq.body.data.loaderId;                 
+                let rqId = rq.body.data.rqId;
+                let nodeLoader = rq.body.data.loaderId;
                 try {
                     const respond = await this.processService.getNodeSchema(rqId, nodeLoader);
                     return respond;
@@ -37,28 +37,38 @@ export class ProcessControllerController {
                     return { error: 'Failed to fetch flow chart from external API' };
                 }
             }
-            case 'SUBMIT_FORM':{
+            case 'SUBMIT_FORM': {
                 console.log("---------------------------------------------------------SUBMIT_FORM---------------------------------------------------------");
                 try {
-                    let data = rq.body.data.data;         
-                    let parent = rq.body.data.parentId; 
+                    let data = rq.body.data.data;
+                    let parent = rq.body.data.parentId;
                     const respond = await this.formService.SubmitFormData(data, parent);
                     return respond;
                 } catch (error) {
                     return { error: 'Failed to fetch flow chart from external API' };
                 }
-           }
-           case 'GET_SUBMISSION':{
-            console.log("---------------------------------------------------------GET_SUBMISSION---------------------------------------------------------");
-            try {
-                let data = rq.body.data.parentId;         
-                const respond = await this.formService.GetAllSubmission(data);
-                return respond;
-            } catch (error) {
-                return { error: 'Failed to fetch flow chart from external API' };
             }
-       }
-            default:{
+            case 'GET_SUBMISSION': {
+                console.log("---------------------------------------------------------GET_SUBMISSION---------------------------------------------------------");
+                try {
+                    let data = rq.body.data.parentId;
+                    const respond = await this.formService.GetAllSubmission(data);
+                    return respond;
+                } catch (error) {
+                    return { error: 'Failed to fetch flow chart from external API' };
+                }
+            }
+            case 'GET_LATEST_SUBMISSION': {
+                console.log("---------------------------------------------------------GET_SUBMISSION---------------------------------------------------------");
+                try {
+                    let data = rq.body.data.parentId;
+                    const respond = await this.formService.GetLatestSubmission(data);
+                    return respond;
+                } catch (error) {
+                    return { error: 'Failed to fetch flow chart from external API' };
+                }
+            }
+            default: {
                 return { error: 'UNAVAILABLE TYPE' };
             }
         }
@@ -69,8 +79,8 @@ export class ProcessControllerController {
         switch (rq.body.type) {
             case 'GET_GRAPH': {
                 console.log("---------------------------------------------------------GetFlowChart---------------------------------------------------------");
-                let rqId = rq.body.data.rqId;         
-                let chartId = rq.body.data.grId;                 
+                let rqId = rq.body.data.rqId;
+                let chartId = rq.body.data.grId;
                 try {
                     const respond = await this.processService.getFlowChart(rqId, chartId);
                     return respond;
