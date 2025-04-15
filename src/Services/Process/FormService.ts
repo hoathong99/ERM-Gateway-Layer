@@ -79,11 +79,54 @@ export class FormService {
         }
     }
 
-    async GetAllSubmission(parentId: string): Promise<any> {
+    async DeleteSubmission(Id: string): Promise<any> {
+        const url = `http://localhost:5678/webhook/DeleteSubmission`;
+        const payload = {
+            data: Id,
+        }
+        console.log(payload);
+        try {
+            const response = await firstValueFrom(
+                this.httpService.post(url, payload)
+            );
+            return response.data;
+            
+        } catch (error: any) {
+            console.error('FetchData error:', error?.response?.data || error.message);
+            throw new HttpException(
+                error?.response?.data || 'External API error',
+                error?.response?.status || 500,
+            );
+        }
+    }
+
+    async GetAllSubmission(loader: string): Promise<any> {
         console.log("---------------------------GetSubmission----------------------------------")
         const url = `http://localhost:5678/webhook/GetAllSubmit`;
         const payload = {
-            data: parentId,
+            data: loader,
+        }
+        console.log(payload);
+        try {
+            const response = await firstValueFrom(
+                this.httpService.post(url, payload)
+            );
+            return response.data;
+            
+        } catch (error: any) {
+            console.error('FetchData error:', error?.response?.data || error.message);
+            throw new HttpException(
+                error?.response?.data || 'External API error',
+                error?.response?.status || 500,
+            );
+        }
+    }
+
+    async GetAllEmployee(loader: string): Promise<any> {
+        console.log("---------------------------GetSubmission----------------------------------")
+        const url = `http://localhost:5678/webhook/GetAllEmployee`;
+        const payload = {
+            data: loader,
         }
         console.log(payload);
         try {
