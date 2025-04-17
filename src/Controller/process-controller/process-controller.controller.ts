@@ -25,7 +25,6 @@ export class ProcessControllerController {
                     return { error: 'Failed to fetch flow chart from external API' };
                 }
             }
-
             case 'CREATE_GRAPH': {
                 let templateId = rq.body.data.templateId;
                 let content = rq.body.data.content;
@@ -36,7 +35,6 @@ export class ProcessControllerController {
                     return { error: 'Failed to fetch flow chart from external API' };
                 }
             }
-
             case 'GET_GRAPH_TEMPLATE': {
                 let rqId = rq.body.data.rqId;
                 let chartId = rq.body.data.grId;
@@ -47,7 +45,6 @@ export class ProcessControllerController {
                     return { error: 'Failed to fetch flow chart from external API' };
                 }
             }
-
             case 'GET_ALL_GRAPH':{;
                 let loader = rq.body.data.loader;
                 try {
@@ -57,7 +54,6 @@ export class ProcessControllerController {
                     return { error: 'Failed to fetch flow chart from external API' };
                 }
             }
-
             case 'GET_NODE': {
                 let rqId = rq.body.data.rqId;
                 let nodeLoader = rq.body.data.loaderId;
@@ -112,6 +108,15 @@ export class ProcessControllerController {
                 try {
                     let data = rq.body.data.loader;
                     const respond = await this.formService.GetAllEmployee(data);
+                    return respond;
+                } catch (error) {
+                    return { error: 'Failed to fetch flow chart from external API' };
+                }
+            }
+            case 'GENERATE_FORMSCHEMA':{
+                try {
+                    let data = rq.body.data;
+                    const respond = await this.formService.GenerateFormSchema(data.html, data.desc);
                     return respond;
                 } catch (error) {
                     return { error: 'Failed to fetch flow chart from external API' };

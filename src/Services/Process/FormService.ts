@@ -143,5 +143,29 @@ export class FormService {
             );
         }
     }
+
+    
+    async GenerateFormSchema(html: string, desc: string): Promise<any> {
+        console.log("---------------------------GenerateFormSchema----------------------------------")
+        const url = `http://localhost:5678/webhook/generateSchema`;
+        const payload = {
+            html: html,
+            describe: desc
+        }
+        console.log(payload);
+        try {
+            const response = await firstValueFrom(
+                this.httpService.post(url, payload)
+            );
+            return response.data;
+            
+        } catch (error: any) {
+            console.error('FetchData error:', error?.response?.data || error.message);
+            throw new HttpException(
+                error?.response?.data || 'External API error',
+                error?.response?.status || 500,
+            );
+        }
+    }
 }
 
